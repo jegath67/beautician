@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+  <!-- SEO & Social Meta Tags -->
+  <title>AURA &amp; CO. | Luxury Beautician Salon &amp; Wellness Spa</title>
+  <meta name="description" content="Experience premium beauty, bridal styling, skin treatments, hair artistry, and nail aesthetics at Aura & Co. Book your personalized appointment online today.">
+  <meta name="keywords" content="beautician, bridal makeup, salon, skin treatments, hair salon, nail art, luxury spa, beauty parlour">
+  <meta name="author" content="Aura & Co. Luxury Beauty">
+
+  <!-- OpenGraph Social Sharing -->
+  <meta property="og:title" content="AURA &amp; CO. | Luxury Beautician Salon &amp; Wellness Spa">
+  <meta property="og:description" content="Premium beauty treatments, bridal artistry, and luxury aesthetics. Book appointments online in real-time.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AURA &amp; CO. | Luxury Beautician Salon">
+  <meta name="twitter:description" content="Premium beauty treatments, bridal artistry, and luxury aesthetics.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Aura Beauty">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Prevent initial white flash and add smooth font smoothing */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0F0F12;
+      color: #FDFBF7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    #loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      background: radial-gradient(circle at center, #1E1B18 0%, #0F0F12 100%);
+    }
+
+    .brand-title {
+      font-size: 28px;
+      letter-spacing: 6px;
+      font-weight: 300;
+      color: #C5A880;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(197, 168, 128, 0.15);
+      border-top: 2px solid #C5A880;
+      border-radius: 50%;
+      animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-container">
+    <div class="brand-title">AURA &amp; CO.</div>
+    <div class="spinner"></div>
+  </div>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
