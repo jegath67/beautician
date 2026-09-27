@@ -80,4 +80,15 @@ class BeauticiansProvider extends ChangeNotifier {
     );
     await loadBeauticians();
   }
+
+  Future<void> toggleActiveStatus(String id) async {
+    final b = _beauticians.firstWhere((x) => x.id == id, orElse: () => _beauticians.first);
+    final updated = b.copyWith(isActive: !b.isActive);
+    await updateBeautician(updated, previous: b);
+  }
+
+  Future<void> deleteBeauticianById(String id) async {
+    final b = _beauticians.firstWhere((x) => x.id == id, orElse: () => _beauticians.first);
+    await deleteBeautician(b);
+  }
 }

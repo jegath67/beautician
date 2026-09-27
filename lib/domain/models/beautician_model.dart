@@ -32,6 +32,9 @@ class BeauticianModel {
     this.isActive = true,
   });
 
+  String get title => role;
+  String get imageUrl => avatarUrl;
+
   BeauticianModel copyWith({
     String? id,
     String? name,

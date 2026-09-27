@@ -24,6 +24,8 @@ class ReviewModel {
     this.isFeatured = true,
   });
 
+  DateTime get createdAt => date;
+
   ReviewModel copyWith({
     String? id,
     String? clientName,

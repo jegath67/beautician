@@ -120,6 +120,9 @@ class BookingsProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> updateBookingStatus(String id, BookingStatus newStatus) =>
+      updateStatus(id, newStatus);
+
   Future<void> updateStatus(
     String id,
     BookingStatus newStatus, {

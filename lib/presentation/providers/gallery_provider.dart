@@ -23,6 +23,7 @@ class GalleryProvider extends ChangeNotifier {
   }
 
   List<GalleryItemModel> get allItems => _items;
+  List<GalleryItemModel> get activeItems => publishedItems;
 
   List<GalleryItemModel> get publishedItems {
     var list = _items.where((i) => i.status == ContentStatus.published).toList();
@@ -151,5 +152,21 @@ class GalleryProvider extends ChangeNotifier {
       summary: 'Deleted photo "${item.title}".',
     );
     await loadGallery();
+  }
+
+  Future<void> addItem(GalleryItemModel item) => createGalleryItem(item);
+  Future<void> updateItem(GalleryItemModel item) => updateGalleryItem(item);
+
+  Future<void> togglePublishStatusById(String id) async {
+    final item = _items.firstWhere((i) => i.id == id, orElse: () => _items.first);
+    final newStatus = item.status == ContentStatus.published
+        ? ContentStatus.draft
+        : ContentStatus.published;
+    await togglePublishStatus(item, newStatus);
+  }
+
+  Future<void> deleteItem(String id) async {
+    final item = _items.firstWhere((i) => i.id == id, orElse: () => _items.first);
+    await deleteGalleryItem(item);
   }
 }

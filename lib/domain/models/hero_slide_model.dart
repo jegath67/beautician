@@ -28,6 +28,9 @@ class HeroSlideModel {
     this.isActive = true,
   });
 
+  String get ctaText => primaryCtaText;
+  String get ctaLink => primaryCtaUrl;
+
   HeroSlideModel copyWith({
     String? id,
     String? title,

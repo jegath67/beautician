@@ -1,5 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../features/admin/about/screens/admin_about_screen.dart';
+import '../../features/admin/audit_logs/screens/admin_audit_logs_screen.dart';
+import '../../features/admin/beauticians/screens/admin_beauticians_screen.dart';
+import '../../features/admin/bookings/screens/admin_bookings_screen.dart';
+import '../../features/admin/contact/screens/admin_contact_screen.dart';
+import '../../features/admin/dashboard/screens/admin_dashboard_screen.dart';
+import '../../features/admin/enquiries/screens/admin_enquiries_screen.dart';
+import '../../features/admin/gallery/screens/admin_gallery_screen.dart';
+import '../../features/admin/hero/screens/admin_hero_screen.dart';
+import '../../features/admin/reviews/screens/admin_reviews_screen.dart';
+import '../../features/admin/services/screens/admin_services_screen.dart';
+import '../../features/admin/settings/screens/admin_settings_screen.dart';
+import '../../features/auth/screens/admin_login_screen.dart';
+import '../../features/user/about/screens/about_screen.dart';
+import '../../features/user/bookings/screens/booking_screen.dart';
+import '../../features/user/contact/screens/contact_screen.dart';
+import '../../features/user/gallery/screens/gallery_screen.dart';
+import '../../features/user/home/screens/home_screen.dart';
+import '../../features/user/services/screens/services_screen.dart';
 import '../../presentation/providers/auth_provider.dart';
 
 class AppRouter {
@@ -79,117 +99,99 @@ class AppRouter {
         GoRoute(
           path: home,
           name: 'home',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Aura & Co. Home'),
+          builder: (context, state) => const HomeScreen(),
         ),
         GoRoute(
           path: services,
           name: 'services',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Services Catalog'),
+          builder: (context, state) => const ServicesScreen(),
         ),
         GoRoute(
           path: gallery,
           name: 'gallery',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Transformation Gallery'),
+          builder: (context, state) => const GalleryScreen(),
         ),
         GoRoute(
           path: booking,
           name: 'booking',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Book Appointment'),
+          builder: (context, state) => const BookingScreen(),
         ),
         GoRoute(
           path: about,
           name: 'about',
-          builder: (context, state) => const _RoutePlaceholder(title: 'About Aura'),
+          builder: (context, state) => const AboutScreen(),
         ),
         GoRoute(
           path: contact,
           name: 'contact',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Contact Concierge'),
+          builder: (context, state) => const ContactScreen(),
         ),
         GoRoute(
           path: adminLogin,
           name: 'adminLogin',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Portal Login'),
+          builder: (context, state) => const AdminLoginScreen(),
         ),
         GoRoute(
           path: adminDashboard,
           name: 'adminDashboard',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Dashboard'),
+          builder: (context, state) => const AdminDashboardScreen(),
         ),
         GoRoute(
           path: adminHero,
           name: 'adminHero',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Hero Slides'),
+          builder: (context, state) => const AdminHeroScreen(),
         ),
         GoRoute(
           path: adminServices,
           name: 'adminServices',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Services CMS'),
+          builder: (context, state) => const AdminServicesScreen(),
         ),
         GoRoute(
           path: adminBeauticians,
           name: 'adminBeauticians',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Beauticians CMS'),
+          builder: (context, state) => const AdminBeauticiansScreen(),
         ),
         GoRoute(
           path: adminGallery,
           name: 'adminGallery',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Gallery Studio'),
+          builder: (context, state) => const AdminGalleryScreen(),
         ),
         GoRoute(
           path: adminBookings,
           name: 'adminBookings',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Bookings Management'),
+          builder: (context, state) => const AdminBookingsScreen(),
         ),
         GoRoute(
           path: adminReviews,
           name: 'adminReviews',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Reviews Moderation'),
+          builder: (context, state) => const AdminReviewsScreen(),
         ),
         GoRoute(
           path: adminEnquiries,
           name: 'adminEnquiries',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Contact Enquiries'),
+          builder: (context, state) => const AdminEnquiriesScreen(),
         ),
         GoRoute(
           path: adminAbout,
           name: 'adminAbout',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin About Content'),
+          builder: (context, state) => const AdminAboutScreen(),
         ),
         GoRoute(
           path: adminContact,
           name: 'adminContact',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Contact Info'),
+          builder: (context, state) => const AdminContactScreen(),
         ),
         GoRoute(
           path: adminSettings,
           name: 'adminSettings',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Branding Settings'),
+          builder: (context, state) => const AdminSettingsScreen(),
         ),
         GoRoute(
           path: adminAuditLogs,
           name: 'adminAuditLogs',
-          builder: (context, state) => const _RoutePlaceholder(title: 'Admin Activity & Audit Logs'),
+          builder: (context, state) => const AdminAuditLogsScreen(),
         ),
       ],
-    );
-  }
-}
-
-class _RoutePlaceholder extends StatelessWidget {
-  final String title;
-  const _RoutePlaceholder({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(
-          '$title Screen Initialized',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ),
     );
   }
 }

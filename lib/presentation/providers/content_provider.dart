@@ -26,6 +26,7 @@ class ContentProvider extends ChangeNotifier {
   }
 
   List<HeroSlideModel> get allHeroSlides => _heroSlides;
+  List<HeroSlideModel> get heroSlides => activePublishedHeroSlides;
   List<HeroSlideModel> get activePublishedHeroSlides => _heroSlides
       .where((s) => s.status == ContentStatus.published && s.isActive)
       .toList();
@@ -81,6 +82,11 @@ class ContentProvider extends ChangeNotifier {
       summary: 'Deleted hero banner slide "${slide.title}".',
     );
     await loadAllContent();
+  }
+
+  Future<void> deleteHeroSlideById(String id) async {
+    final slide = _heroSlides.firstWhere((s) => s.id == id, orElse: () => _heroSlides.first);
+    await deleteHeroSlide(slide);
   }
 
   // About Content Mutations

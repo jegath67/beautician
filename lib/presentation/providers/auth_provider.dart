@@ -17,6 +17,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => _currentUser != null;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  String? get error => _errorMessage;
   bool get isAdmin => _currentUser?.isAdmin ?? false;
 
   Future<void> _init() async {

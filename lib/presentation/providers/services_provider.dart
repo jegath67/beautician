@@ -21,8 +21,11 @@ class ServicesProvider extends ChangeNotifier {
   }
 
   List<ServiceModel> get allServices => _services;
+  List<ServiceModel> get services => publishedServices;
   List<ServiceModel> get publishedServices =>
       _services.where((s) => s.status == ContentStatus.published).toList();
+  List<ServiceModel> get featuredServices =>
+      publishedServices.where((s) => s.isFeatured).toList();
 
   List<ServiceModel> get filteredPublishedServices {
     if (_selectedCategory == 'All') return publishedServices;
@@ -125,5 +128,18 @@ class ServicesProvider extends ChangeNotifier {
       summary: 'Deleted service "${service.title}".',
     );
     await loadServices();
+  }
+
+  Future<void> togglePublishStatusById(String id) async {
+    final service = _services.firstWhere((s) => s.id == id, orElse: () => _services.first);
+    final newStatus = service.status == ContentStatus.published
+        ? ContentStatus.draft
+        : ContentStatus.published;
+    await togglePublishStatus(service, newStatus);
+  }
+
+  Future<void> deleteServiceById(String id) async {
+    final service = _services.firstWhere((s) => s.id == id, orElse: () => _services.first);
+    await deleteService(service);
   }
 }

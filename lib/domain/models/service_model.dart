@@ -24,6 +24,7 @@ class ServiceModel {
     this.isFeatured = false,
   });
 
+  String get name => title;
   String get formattedPrice => '₹${price.toStringAsFixed(0)}';
   String get formattedDuration => '$durationMinutes mins';
 

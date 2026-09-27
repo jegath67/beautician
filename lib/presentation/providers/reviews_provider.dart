@@ -20,8 +20,12 @@ class ReviewsProvider extends ChangeNotifier {
   }
 
   List<ReviewModel> get allReviews => _reviews;
+  List<ReviewModel> get approvedReviews => publishedReviews;
   List<ReviewModel> get publishedReviews =>
       _reviews.where((r) => r.status == ContentStatus.published).toList();
+  List<ReviewModel> get pendingReviews =>
+      _reviews.where((r) => r.status != ContentStatus.published).toList();
+  int get pendingReviewsCount => pendingReviews.length;
   List<ReviewModel> get featuredReviews =>
       publishedReviews.where((r) => r.isFeatured).toList();
   bool get isLoading => _isLoading;
@@ -108,5 +112,23 @@ class ReviewsProvider extends ChangeNotifier {
       summary: 'Deleted review by "${review.clientName}".',
     );
     await loadReviews();
+  }
+
+  Future<void> approveReview(String id) async {
+    final review = _reviews.firstWhere((r) => r.id == id, orElse: () => _reviews.first);
+    await togglePublishStatus(review, ContentStatus.published);
+  }
+
+  Future<void> togglePublishStatusById(String id) async {
+    final review = _reviews.firstWhere((r) => r.id == id, orElse: () => _reviews.first);
+    final newStatus = review.status == ContentStatus.published
+        ? ContentStatus.draft
+        : ContentStatus.published;
+    await togglePublishStatus(review, newStatus);
+  }
+
+  Future<void> deleteReviewById(String id) async {
+    final review = _reviews.firstWhere((r) => r.id == id, orElse: () => _reviews.first);
+    await deleteReview(review);
   }
 }
