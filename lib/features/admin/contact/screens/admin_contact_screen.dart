@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
@@ -89,7 +90,7 @@ class _AdminContactScreenState extends State<AdminContactScreen> {
   Widget build(BuildContext context) {
     return AdminScaffold(
       title: 'Contact Info & Business Hours CMS',
-      currentRoute: '/admin/contact',
+      currentRoute: AppRouter.adminContact,
       actions: [
         AppButton(
           text: 'Save Details',
@@ -110,12 +111,25 @@ class _AdminContactScreenState extends State<AdminContactScreen> {
               children: [
                 const Text('Public Contact Channels', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                 const SizedBox(height: AppSpacing.md),
-                Row(
-                  children: [
-                    Expanded(child: AppTextField(controller: _phoneCtrl, label: 'Concierge Phone')),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(child: AppTextField(controller: _emailCtrl, label: 'Concierge Email')),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth < 600) {
+                      return Column(
+                        children: [
+                          AppTextField(controller: _phoneCtrl, label: 'Concierge Phone'),
+                          const SizedBox(height: AppSpacing.sm),
+                          AppTextField(controller: _emailCtrl, label: 'Concierge Email'),
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: AppTextField(controller: _phoneCtrl, label: 'Concierge Phone')),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(child: AppTextField(controller: _emailCtrl, label: 'Concierge Email')),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: _whatsappCtrl, label: 'WhatsApp Concierge Link/Number'),
@@ -130,12 +144,25 @@ class _AdminContactScreenState extends State<AdminContactScreen> {
 
                 const Text('Operating Hours', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                 const SizedBox(height: AppSpacing.md),
-                Row(
-                  children: [
-                    Expanded(child: AppTextField(controller: _weekDayHoursCtrl, label: 'Monday - Friday')),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(child: AppTextField(controller: _weekendHoursCtrl, label: 'Saturday & Sunday')),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth < 600) {
+                      return Column(
+                        children: [
+                          AppTextField(controller: _weekDayHoursCtrl, label: 'Monday - Friday'),
+                          const SizedBox(height: AppSpacing.sm),
+                          AppTextField(controller: _weekendHoursCtrl, label: 'Saturday & Sunday'),
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: AppTextField(controller: _weekDayHoursCtrl, label: 'Monday - Friday')),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(child: AppTextField(controller: _weekendHoursCtrl, label: 'Saturday & Sunday')),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),

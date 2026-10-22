@@ -1,0 +1,34 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "beautician-4c13d",
+          "configurations": {
+            "web": "1:841303777145:web:6e58bc1681854e9bf2d9a8"
+          }
+        }
+      }
+    }
+  }
+}

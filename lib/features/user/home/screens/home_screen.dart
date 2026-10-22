@@ -268,12 +268,11 @@ class _StatsHighlightBar extends StatelessWidget {
                 ],
               ),
               desktop: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _StatItem(number: '12+', label: 'Master Stylists & Artisans'),
-                  _StatItem(number: '35+', label: 'Signature Rituals & Services'),
-                  _StatItem(number: '4.9★', label: 'Average Client Rating'),
-                  _StatItem(number: '10,000+', label: 'Transformations Completed'),
+                  Expanded(child: _StatItem(number: '12+', label: 'Master Stylists & Artisans')),
+                  Expanded(child: _StatItem(number: '35+', label: 'Signature Rituals & Services')),
+                  Expanded(child: _StatItem(number: '4.9★', label: 'Average Client Rating')),
+                  Expanded(child: _StatItem(number: '10,000+', label: 'Transformations Completed')),
                 ],
               ),
             ),
@@ -533,7 +532,7 @@ class _ArtisansSection extends StatelessWidget {
                       crossAxisCount: columns,
                       crossAxisSpacing: AppSpacing.lg,
                       mainAxisSpacing: AppSpacing.lg,
-                      childAspectRatio: 0.75,
+                      childAspectRatio: 0.70,
                     ),
                     itemCount: beauticians.take(4).length,
                     itemBuilder: (context, index) {
@@ -544,7 +543,7 @@ class _ArtisansSection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
-                              flex: 6,
+                              flex: 5,
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                                 child: Image.network(
@@ -558,7 +557,10 @@ class _ArtisansSection extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Padding(
-                                padding: const EdgeInsets.all(AppSpacing.md),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.sm,
+                                  vertical: AppSpacing.xs,
+                                ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -696,21 +698,25 @@ class _ReviewsSection extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    review.clientName,
-                                    style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-                                  ),
-                                  Text(
-                                    review.serviceName,
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: AppColors.goldPrimary,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      review.clientName,
+                                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      review.serviceName,
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: AppColors.goldPrimary,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

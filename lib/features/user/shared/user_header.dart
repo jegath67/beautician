@@ -118,32 +118,42 @@ class UserHeader extends StatelessWidget implements PreferredSizeWidget {
 
                 // Desktop Navigation Items
                 if (isDesktop) ...[
-                  _NavItem(
-                    title: AppStrings.navHome,
-                    route: AppRouter.home,
-                    isActive: currentRoute == AppRouter.home,
+                  Flexible(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _NavItem(
+                            title: AppStrings.navHome,
+                            route: AppRouter.home,
+                            isActive: currentRoute == AppRouter.home,
+                          ),
+                          _NavItem(
+                            title: AppStrings.navServices,
+                            route: AppRouter.services,
+                            isActive: currentRoute == AppRouter.services,
+                          ),
+                          _NavItem(
+                            title: AppStrings.navGallery,
+                            route: AppRouter.gallery,
+                            isActive: currentRoute == AppRouter.gallery,
+                          ),
+                          _NavItem(
+                            title: AppStrings.navAbout,
+                            route: AppRouter.about,
+                            isActive: currentRoute == AppRouter.about,
+                          ),
+                          _NavItem(
+                            title: AppStrings.navContact,
+                            route: AppRouter.contact,
+                            isActive: currentRoute == AppRouter.contact,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  _NavItem(
-                    title: AppStrings.navServices,
-                    route: AppRouter.services,
-                    isActive: currentRoute == AppRouter.services,
-                  ),
-                  _NavItem(
-                    title: AppStrings.navGallery,
-                    route: AppRouter.gallery,
-                    isActive: currentRoute == AppRouter.gallery,
-                  ),
-                  _NavItem(
-                    title: AppStrings.navAbout,
-                    route: AppRouter.about,
-                    isActive: currentRoute == AppRouter.about,
-                  ),
-                  _NavItem(
-                    title: AppStrings.navContact,
-                    route: AppRouter.contact,
-                    isActive: currentRoute == AppRouter.contact,
-                  ),
-                  const SizedBox(width: AppSpacing.md),
+                  const SizedBox(width: AppSpacing.sm),
                 ],
 
                 // Theme Toggle

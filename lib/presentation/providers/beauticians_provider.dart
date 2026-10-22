@@ -82,13 +82,17 @@ class BeauticiansProvider extends ChangeNotifier {
   }
 
   Future<void> toggleActiveStatus(String id) async {
-    final b = _beauticians.firstWhere((x) => x.id == id, orElse: () => _beauticians.first);
+    if (_beauticians.isEmpty) return;
+    final b = _beauticians.where((x) => x.id == id).firstOrNull;
+    if (b == null) return;
     final updated = b.copyWith(isActive: !b.isActive);
     await updateBeautician(updated, previous: b);
   }
 
   Future<void> deleteBeauticianById(String id) async {
-    final b = _beauticians.firstWhere((x) => x.id == id, orElse: () => _beauticians.first);
+    if (_beauticians.isEmpty) return;
+    final b = _beauticians.where((x) => x.id == id).firstOrNull;
+    if (b == null) return;
     await deleteBeautician(b);
   }
 }

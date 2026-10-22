@@ -97,7 +97,8 @@ class EnquiriesProvider extends ChangeNotifier {
     EnquiryStatus newStatus, {
     String actorName = 'Admin',
   }) async {
-    final enq = _enquiries.firstWhere((e) => e.id == id);
+    final enq = _enquiries.where((e) => e.id == id).firstOrNull;
+    if (enq == null) return;
     final prev = enq.status;
 
     await _enquiryRepository.updateEnquiryStatus(id, newStatus);
@@ -115,18 +116,20 @@ class EnquiriesProvider extends ChangeNotifier {
   }
 
   Future<void> deleteEnquiry(String id, {String actorName = 'Admin'}) async {
-    final enq = _enquiries.firstWhere((e) => e.id == id);
+    final enq = _enquiries.where((e) => e.id == id).firstOrNull;
     await _enquiryRepository.deleteEnquiry(id);
-    await _auditProvider?.logAction(
-      actorName: actorName,
-      actionType: 'DELETE',
-      entityType: 'Enquiry',
-      entityId: id,
-      entityTitle: '${enq.name} - ${enq.subject}',
-      previousValue: 'Status: ${enq.status.label}',
-      newValue: null,
-      summary: 'Deleted enquiry from ${enq.name}.',
-    );
+    if (enq != null) {
+      await _auditProvider?.logAction(
+        actorName: actorName,
+        actionType: 'DELETE',
+        entityType: 'Enquiry',
+        entityId: id,
+        entityTitle: '${enq.name} - ${enq.subject}',
+        previousValue: 'Status: ${enq.status.label}',
+        newValue: null,
+        summary: 'Deleted enquiry from ${enq.name}.',
+      );
+    }
     await loadEnquiries();
   }
 }

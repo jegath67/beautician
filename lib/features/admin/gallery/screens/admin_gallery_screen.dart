@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_radius.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_dialog.dart';
+import '../../../../core/widgets/app_image_upload_field.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../domain/models/content_status.dart';
 import '../../../../domain/models/gallery_item_model.dart';
@@ -38,7 +40,12 @@ class AdminGalleryScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: catCtrl, label: 'Category (Bridal, Hair, Skin, Nails)'),
                 const SizedBox(height: AppSpacing.sm),
-                AppTextField(controller: imgCtrl, label: 'Image URL'),
+                AppImageUploadField(
+                  controller: imgCtrl,
+                  label: 'Artwork Image',
+                  storageFolder: 'gallery',
+                  entityId: existing?.id,
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: descCtrl, label: 'Description & Client Details', maxLines: 3),
               ],
@@ -82,7 +89,7 @@ class AdminGalleryScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Gallery & Transformation Portfolio Studio',
-      currentRoute: '/admin/gallery',
+      currentRoute: AppRouter.adminGallery,
       actions: [
         AppButton(
           text: 'Upload Artwork',
@@ -139,7 +146,7 @@ class AdminGalleryScreen extends StatelessWidget {
                           DataCell(
                             Switch(
                               value: i.status == ContentStatus.published,
-                              activeColor: AppColors.goldPrimary,
+                              activeThumbColor: AppColors.goldPrimary,
                               onChanged: (_) => galleryProvider.togglePublishStatusById(i.id),
                             ),
                           ),

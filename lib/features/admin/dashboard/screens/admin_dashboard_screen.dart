@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/constants/app_radius.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/responsive/responsive_layout.dart';
 import '../../../../core/router/app_router.dart';
@@ -110,13 +109,15 @@ class AdminDashboardScreen extends StatelessWidget {
       builder: (context, constraints) {
         final cols = Responsive.gridColumns(context, mobile: 1, tablet: 2, desktop: 4);
 
-        return GridView.count(
+        return GridView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: cols,
-          crossAxisSpacing: AppSpacing.lg,
-          mainAxisSpacing: AppSpacing.lg,
-          childAspectRatio: 1.6,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: cols,
+            crossAxisSpacing: AppSpacing.lg,
+            mainAxisSpacing: AppSpacing.lg,
+            mainAxisExtent: 110,
+          ),
           children: [
             _KpiCard(
               title: 'Today Appointments',
@@ -327,7 +328,6 @@ class AdminDashboardScreen extends StatelessWidget {
         fg = AppColors.error;
         break;
       case BookingStatus.pending:
-      default:
         bg = AppColors.warning.withAlpha(25);
         fg = AppColors.warning;
         break;
@@ -365,20 +365,20 @@ class _KpiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: 42,
+            height: 42,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: color.withAlpha(25),
               border: Border.all(color: color.withAlpha(80)),
             ),
-            child: Icon(icon, color: color, size: 24),
+            child: Icon(icon, color: color, size: 20),
           ),
-          const SizedBox(width: AppSpacing.md),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,19 +387,25 @@ class _KpiCard extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).textTheme.bodySmall?.color?.withAlpha(160),
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                  ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(fontSize: 11, color: color),
+                  style: TextStyle(fontSize: 10, color: color),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

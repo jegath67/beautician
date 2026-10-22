@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../domain/models/contact_enquiry_model.dart';
@@ -19,7 +20,7 @@ class AdminEnquiriesScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Client Enquiries & Concierge CRM',
-      currentRoute: '/admin/enquiries',
+      currentRoute: AppRouter.adminEnquiries,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(

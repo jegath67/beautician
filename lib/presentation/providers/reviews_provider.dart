@@ -115,12 +115,16 @@ class ReviewsProvider extends ChangeNotifier {
   }
 
   Future<void> approveReview(String id) async {
-    final review = _reviews.firstWhere((r) => r.id == id, orElse: () => _reviews.first);
+    if (_reviews.isEmpty) return;
+    final review = _reviews.where((r) => r.id == id).firstOrNull;
+    if (review == null) return;
     await togglePublishStatus(review, ContentStatus.published);
   }
 
   Future<void> togglePublishStatusById(String id) async {
-    final review = _reviews.firstWhere((r) => r.id == id, orElse: () => _reviews.first);
+    if (_reviews.isEmpty) return;
+    final review = _reviews.where((r) => r.id == id).firstOrNull;
+    if (review == null) return;
     final newStatus = review.status == ContentStatus.published
         ? ContentStatus.draft
         : ContentStatus.published;
@@ -128,7 +132,9 @@ class ReviewsProvider extends ChangeNotifier {
   }
 
   Future<void> deleteReviewById(String id) async {
-    final review = _reviews.firstWhere((r) => r.id == id, orElse: () => _reviews.first);
+    if (_reviews.isEmpty) return;
+    final review = _reviews.where((r) => r.id == id).firstOrNull;
+    if (review == null) return;
     await deleteReview(review);
   }
 }

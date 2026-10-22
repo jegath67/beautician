@@ -85,7 +85,9 @@ class ContentProvider extends ChangeNotifier {
   }
 
   Future<void> deleteHeroSlideById(String id) async {
-    final slide = _heroSlides.firstWhere((s) => s.id == id, orElse: () => _heroSlides.first);
+    if (_heroSlides.isEmpty) return;
+    final slide = _heroSlides.where((s) => s.id == id).firstOrNull;
+    if (slide == null) return;
     await deleteHeroSlide(slide);
   }
 

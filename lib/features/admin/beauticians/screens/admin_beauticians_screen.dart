@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_dialog.dart';
+import '../../../../core/widgets/app_image_upload_field.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../domain/models/beautician_model.dart';
 import '../../../../presentation/providers/beauticians_provider.dart';
@@ -16,11 +18,13 @@ class AdminBeauticiansScreen extends StatelessWidget {
 
   void _showAddEditBeauticianDialog(BuildContext context, [BeauticianModel? existing]) {
     final nameCtrl = TextEditingController(text: existing?.name ?? '');
-    final titleCtrl = TextEditingController(text: existing?.title ?? 'Master Stylist');
-    final roleCtrl = TextEditingController(text: existing?.role ?? 'Senior Artist');
+    final roleCtrl = TextEditingController(text: existing?.role ?? 'Senior Stylist & Colorist');
+    final specialtiesCtrl = TextEditingController(
+      text: existing != null ? existing.specialties.join(', ') : 'Hair Styling, Bridal Makeup',
+    );
     final bioCtrl = TextEditingController(text: existing?.bio ?? '');
     final imgCtrl = TextEditingController(
-      text: existing?.imageUrl ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+      text: existing?.avatarUrl ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
     );
 
     showDialog(
@@ -35,15 +39,16 @@ class AdminBeauticiansScreen extends StatelessWidget {
               children: [
                 AppTextField(controller: nameCtrl, label: 'Full Name'),
                 const SizedBox(height: AppSpacing.sm),
-                Row(
-                  children: [
-                    Expanded(child: AppTextField(controller: titleCtrl, label: 'Title (e.g. Master Colorist)')),
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(child: AppTextField(controller: roleCtrl, label: 'Role')),
-                  ],
-                ),
+                AppTextField(controller: roleCtrl, label: 'Professional Role / Title (e.g. Master Colorist)'),
                 const SizedBox(height: AppSpacing.sm),
-                AppTextField(controller: imgCtrl, label: 'Portrait Image URL'),
+                AppTextField(controller: specialtiesCtrl, label: 'Specialties (comma separated, e.g. Hair, Bridal)'),
+                const SizedBox(height: AppSpacing.sm),
+                AppImageUploadField(
+                  controller: imgCtrl,
+                  label: 'Portrait Photo',
+                  storageFolder: 'beauticians',
+                  entityId: existing?.id,
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: bioCtrl, label: 'Biography & Certifications', maxLines: 3),
               ],
@@ -57,15 +62,20 @@ class AdminBeauticiansScreen extends StatelessWidget {
             size: AppButtonSize.sm,
             onPressed: () async {
               final provider = context.read<BeauticiansProvider>();
+              final specs = specialtiesCtrl.text
+                  .split(',')
+                  .map((e) => e.trim())
+                  .where((e) => e.isNotEmpty)
+                  .toList();
               final beautician = BeauticianModel(
                 id: existing?.id ?? 'ART-${DateTime.now().millisecondsSinceEpoch}',
                 name: nameCtrl.text.trim(),
-                role: titleCtrl.text.trim(),
+                role: roleCtrl.text.trim(),
                 bio: bioCtrl.text.trim(),
                 avatarUrl: imgCtrl.text.trim(),
                 rating: existing?.rating ?? 4.9,
                 reviewCount: existing?.reviewCount ?? 12,
-                specialties: existing?.specialties ?? ['Hair', 'Color'],
+                specialties: specs.isNotEmpty ? specs : ['Hair Styling', 'Bridal'],
                 isActive: existing?.isActive ?? true,
               );
 
@@ -89,7 +99,7 @@ class AdminBeauticiansScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Salon Specialists & Artisans CMS',
-      currentRoute: '/admin/beauticians',
+      currentRoute: AppRouter.adminBeauticians,
       actions: [
         AppButton(
           text: 'Add Specialist',
@@ -152,7 +162,7 @@ class AdminBeauticiansScreen extends StatelessWidget {
                           DataCell(
                             Switch(
                               value: b.isActive,
-                              activeColor: AppColors.goldPrimary,
+                              activeThumbColor: AppColors.goldPrimary,
                               onChanged: (_) => beauticiansProvider.toggleActiveStatus(b.id),
                             ),
                           ),

@@ -158,7 +158,9 @@ class GalleryProvider extends ChangeNotifier {
   Future<void> updateItem(GalleryItemModel item) => updateGalleryItem(item);
 
   Future<void> togglePublishStatusById(String id) async {
-    final item = _items.firstWhere((i) => i.id == id, orElse: () => _items.first);
+    if (_items.isEmpty) return;
+    final item = _items.where((i) => i.id == id).firstOrNull;
+    if (item == null) return;
     final newStatus = item.status == ContentStatus.published
         ? ContentStatus.draft
         : ContentStatus.published;
@@ -166,7 +168,9 @@ class GalleryProvider extends ChangeNotifier {
   }
 
   Future<void> deleteItem(String id) async {
-    final item = _items.firstWhere((i) => i.id == id, orElse: () => _items.first);
+    if (_items.isEmpty) return;
+    final item = _items.where((i) => i.id == id).firstOrNull;
+    if (item == null) return;
     await deleteGalleryItem(item);
   }
 }

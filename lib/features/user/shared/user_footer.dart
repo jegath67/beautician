@@ -225,7 +225,13 @@ class UserFooter extends StatelessWidget {
           children: [
             Icon(Icons.phone_outlined, size: 16, color: AppColors.goldPrimary),
             SizedBox(width: AppSpacing.xs),
-            Text('+1 (800) 892-AURA', style: TextStyle(fontSize: 13)),
+            Expanded(
+              child: Text(
+                '+1 (800) 892-AURA',
+                style: TextStyle(fontSize: 13),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
         SizedBox(height: AppSpacing.sm),
@@ -233,7 +239,13 @@ class UserFooter extends StatelessWidget {
           children: [
             Icon(Icons.email_outlined, size: 16, color: AppColors.goldPrimary),
             SizedBox(width: AppSpacing.xs),
-            Text('concierge@aurasalon.com', style: TextStyle(fontSize: 13)),
+            Expanded(
+              child: Text(
+                'concierge@aurasalon.com',
+                style: TextStyle(fontSize: 13),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ],

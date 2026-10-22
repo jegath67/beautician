@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_radius.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_dialog.dart';
+import '../../../../core/widgets/app_image_upload_field.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../domain/models/content_status.dart';
 import '../../../../domain/models/hero_slide_model.dart';
@@ -47,7 +49,12 @@ class AdminHeroScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                AppTextField(controller: imgCtrl, label: 'High-Res Hero Image URL'),
+                AppImageUploadField(
+                  controller: imgCtrl,
+                  label: 'High-Res Hero Image',
+                  storageFolder: 'hero',
+                  entityId: existing?.id,
+                ),
               ],
             ),
           ),
@@ -89,7 +96,7 @@ class AdminHeroScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Hero Banner Carousel CMS',
-      currentRoute: '/admin/hero',
+      currentRoute: AppRouter.adminHero,
       actions: [
         AppButton(
           text: 'Add Slide',
@@ -139,7 +146,7 @@ class AdminHeroScreen extends StatelessWidget {
                           DataCell(
                             Switch(
                               value: s.isActive,
-                              activeColor: AppColors.goldPrimary,
+                              activeThumbColor: AppColors.goldPrimary,
                               onChanged: (val) {
                                 final updated = s.copyWith(isActive: val);
                                 contentProvider.saveHeroSlide(updated);

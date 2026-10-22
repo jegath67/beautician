@@ -57,13 +57,13 @@ class AppRouter {
         final isAdminRoute = location.startsWith('/admin');
         final isLoginRoute = location == adminLogin;
 
-        // If user is accessing an admin route without authentication
-        if (isAdminRoute && !isLoginRoute && !authProvider.isAuthenticated) {
+        // If user is accessing an admin route without verified administrator privileges
+        if (isAdminRoute && !isLoginRoute && (!authProvider.isAuthenticated || !authProvider.isAdmin)) {
           return adminLogin;
         }
 
-        // If user is logged in and tries to go to login page, redirect to dashboard
-        if (isLoginRoute && authProvider.isAuthenticated) {
+        // If user is already authenticated as admin and tries to visit login, redirect to dashboard
+        if (isLoginRoute && authProvider.isAuthenticated && authProvider.isAdmin) {
           return adminDashboard;
         }
 

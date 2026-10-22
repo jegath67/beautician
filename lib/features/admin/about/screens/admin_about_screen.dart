@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/app_image_upload_field.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../presentation/providers/content_provider.dart';
 import '../../shared/admin_scaffold.dart';
@@ -93,7 +95,7 @@ class _AdminAboutScreenState extends State<AdminAboutScreen> {
   Widget build(BuildContext context) {
     return AdminScaffold(
       title: 'About Us Content CMS',
-      currentRoute: '/admin/about',
+      currentRoute: AppRouter.adminAbout,
       actions: [
         AppButton(
           text: 'Save Changes',
@@ -125,15 +127,33 @@ class _AdminAboutScreenState extends State<AdminAboutScreen> {
 
                 const Text('Founder Profile', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                 const SizedBox(height: AppSpacing.md),
-                Row(
-                  children: [
-                    Expanded(child: AppTextField(controller: _founderNameCtrl, label: 'Founder Name')),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(child: AppTextField(controller: _founderRoleCtrl, label: 'Founder Title / Role')),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth < 600) {
+                      return Column(
+                        children: [
+                          AppTextField(controller: _founderNameCtrl, label: 'Founder Name'),
+                          const SizedBox(height: AppSpacing.sm),
+                          AppTextField(controller: _founderRoleCtrl, label: 'Founder Title / Role'),
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: AppTextField(controller: _founderNameCtrl, label: 'Founder Name')),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(child: AppTextField(controller: _founderRoleCtrl, label: 'Founder Title / Role')),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                AppTextField(controller: _founderImgCtrl, label: 'Founder Portrait Image URL'),
+                AppImageUploadField(
+                  controller: _founderImgCtrl,
+                  label: 'Founder Portrait',
+                  storageFolder: 'about',
+                  entityId: 'founder',
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: _founderBioCtrl, label: 'Founder Bio', maxLines: 3),
               ],

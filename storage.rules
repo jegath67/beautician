@@ -1,0 +1,23 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidImage() {
+      return request.resource.size < 5 * 1024 * 1024
+          && (request.resource.contentType.matches('image/jpeg')
+           || request.resource.contentType.matches('image/png')
+           || request.resource.contentType.matches('image/webp'));
+    }
+
+    // Public read for website assets across folders; authenticated write
+    match /{folder}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() && isValidImage();
+      allow delete: if isAuthenticated();
+    }
+  }
+}

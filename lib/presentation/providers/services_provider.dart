@@ -131,7 +131,9 @@ class ServicesProvider extends ChangeNotifier {
   }
 
   Future<void> togglePublishStatusById(String id) async {
-    final service = _services.firstWhere((s) => s.id == id, orElse: () => _services.first);
+    if (_services.isEmpty) return;
+    final service = _services.where((s) => s.id == id).firstOrNull;
+    if (service == null) return;
     final newStatus = service.status == ContentStatus.published
         ? ContentStatus.draft
         : ContentStatus.published;
@@ -139,7 +141,9 @@ class ServicesProvider extends ChangeNotifier {
   }
 
   Future<void> deleteServiceById(String id) async {
-    final service = _services.firstWhere((s) => s.id == id, orElse: () => _services.first);
+    if (_services.isEmpty) return;
+    final service = _services.where((s) => s.id == id).firstOrNull;
+    if (service == null) return;
     await deleteService(service);
   }
 }

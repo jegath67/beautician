@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../domain/models/booking_model.dart';
@@ -19,7 +20,7 @@ class AdminBookingsScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Appointment Management',
-      currentRoute: '/admin/bookings',
+      currentRoute: AppRouter.adminBookings,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
@@ -156,7 +157,6 @@ class AdminBookingsScreen extends StatelessWidget {
         fg = AppColors.error;
         break;
       case BookingStatus.pending:
-      default:
         bg = AppColors.warning.withAlpha(25);
         fg = AppColors.warning;
         break;

@@ -51,15 +51,19 @@ class AdminHeader extends StatelessWidget implements PreferredSizeWidget {
             ),
             const SizedBox(width: AppSpacing.sm),
           ],
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.3,
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.3,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          const Spacer(),
+          const SizedBox(width: AppSpacing.sm),
           ...?actions,
           const SizedBox(width: AppSpacing.sm),
 

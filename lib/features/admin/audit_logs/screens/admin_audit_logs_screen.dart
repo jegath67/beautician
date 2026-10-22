@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../presentation/providers/audit_provider.dart';
@@ -18,7 +19,7 @@ class AdminAuditLogsScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Security & Activity Audit Logs',
-      currentRoute: '/admin/audit-logs',
+      currentRoute: AppRouter.adminAuditLogs,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(

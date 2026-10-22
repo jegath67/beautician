@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
@@ -20,7 +21,7 @@ class AdminReviewsScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Client Reviews Moderation Queue',
-      currentRoute: '/admin/reviews',
+      currentRoute: AppRouter.adminReviews,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(

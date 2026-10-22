@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
@@ -80,7 +81,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
   Widget build(BuildContext context) {
     return AdminScaffold(
       title: 'Salon Branding & General Settings',
-      currentRoute: '/admin/settings',
+      currentRoute: AppRouter.adminSettings,
       actions: [
         AppButton(
           text: 'Save Settings',
@@ -101,12 +102,25 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
               children: [
                 const Text('Brand Identity', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                 const SizedBox(height: AppSpacing.md),
-                Row(
-                  children: [
-                    Expanded(child: AppTextField(controller: _salonNameCtrl, label: 'Salon / Brand Title')),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(child: AppTextField(controller: _currencyCtrl, label: 'Currency Symbol (₹, \$, €)')),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth < 600) {
+                      return Column(
+                        children: [
+                          AppTextField(controller: _salonNameCtrl, label: 'Salon / Brand Title'),
+                          const SizedBox(height: AppSpacing.sm),
+                          AppTextField(controller: _currencyCtrl, label: 'Currency Symbol (₹, \$, €)'),
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: AppTextField(controller: _salonNameCtrl, label: 'Salon / Brand Title')),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(child: AppTextField(controller: _currencyCtrl, label: 'Currency Symbol (₹, \$, €)')),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: _taglineCtrl, label: 'Tagline & Brand Motto'),
@@ -118,7 +132,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Show Announcement Banner on Public Header'),
                   subtitle: const Text('Displays a luxury top notification banner across all client pages.'),
-                  activeColor: AppColors.goldPrimary,
+                  activeTrackColor: AppColors.goldPrimary,
                   value: _isAnnouncementActive,
                   onChanged: (val) => setState(() => _isAnnouncementActive = val),
                 ),

@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_radius.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_dialog.dart';
+import '../../../../core/widgets/app_image_upload_field.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../domain/models/content_status.dart';
 import '../../../../domain/models/service_model.dart';
@@ -42,13 +44,18 @@ class AdminServicesScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 Row(
                   children: [
-                    Expanded(child: AppTextField(controller: priceCtrl, label: 'Price (\$)', keyboardType: TextInputType.number)),
+                    Expanded(child: AppTextField(controller: priceCtrl, label: 'Price (₹)', keyboardType: TextInputType.number)),
                     const SizedBox(width: AppSpacing.sm),
                     Expanded(child: AppTextField(controller: durationCtrl, label: 'Duration (Mins)', keyboardType: TextInputType.number)),
                   ],
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                AppTextField(controller: imgCtrl, label: 'Cover Image URL'),
+                AppImageUploadField(
+                  controller: imgCtrl,
+                  label: 'Cover Image',
+                  storageFolder: 'services',
+                  entityId: existing?.id,
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 AppTextField(controller: descCtrl, label: 'Description', maxLines: 3),
               ],
@@ -94,7 +101,7 @@ class AdminServicesScreen extends StatelessWidget {
 
     return AdminScaffold(
       title: 'Services & Treatment Catalog CMS',
-      currentRoute: '/admin/services',
+      currentRoute: AppRouter.adminServices,
       actions: [
         AppButton(
           text: 'Add New Service',
@@ -152,11 +159,11 @@ class AdminServicesScreen extends StatelessWidget {
                           ),
                           DataCell(Text(s.category)),
                           DataCell(Text('${s.durationMinutes} mins')),
-                          DataCell(Text('\$${s.price.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.bold))),
+                          DataCell(Text(s.formattedPrice, style: const TextStyle(fontWeight: FontWeight.bold))),
                           DataCell(
                             Switch(
                               value: s.status == ContentStatus.published,
-                              activeColor: AppColors.goldPrimary,
+                              activeThumbColor: AppColors.goldPrimary,
                               onChanged: (_) => servicesProvider.togglePublishStatusById(s.id),
                             ),
                           ),

@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for secure role-based access
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Admin role check: verified via token custom claims OR /admins/{uid} doc
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role == 'superAdmin' ||
+        request.auth.token.role == 'manager' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Administrator role registry
+    match /admins/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if false; // Only manageable through Firebase Console or Admin SDK
+    }
+
+    // Global CMS site settings (about, contact_info, branding, business_hours)
+    match /site_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Hero Carousel slides
+    match /hero_slides/{slideId} {
+      allow read: if isAdmin() || resource.data.status == 'published';
+      allow write: if isAdmin();
+    }
+
+    // Services & Treatment Catalog
+    match /services/{serviceId} {
+      allow read: if isAdmin() || resource.data.status == 'published';
+      allow write: if isAdmin();
+    }
+
+    // Stylists, Beauticians & Artists
+    match /beauticians/{beauticianId} {
+      allow read: if isAdmin() || resource.data.isActive == true;
+      allow write: if isAdmin();
+    }
+
+    // Transformation Artwork Gallery
+    match /gallery/{itemId} {
+      allow read: if isAdmin() || resource.data.status == 'published';
+      allow write: if isAdmin();
+    }
+
+    // Client Reviews & Testimonials
+    match /reviews/{reviewId} {
+      allow read: if isAdmin() || resource.data.status == 'published';
+      allow create: if true; // Public submission from clients
+      allow update, delete: if isAdmin();
+    }
+
+    // Appointments & Bookings
+    match /bookings/{bookingId} {
+      allow create: if true; // Clients booking online
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Contact Form Enquiries & Concierge Messages
+    match /enquiries/{enquiryId} {
+      allow create: if true; // Public contact submissions
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

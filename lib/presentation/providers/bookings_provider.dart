@@ -128,7 +128,8 @@ class BookingsProvider extends ChangeNotifier {
     BookingStatus newStatus, {
     String actorName = 'Admin',
   }) async {
-    final booking = _bookings.firstWhere((b) => b.id == id);
+    final booking = _bookings.where((b) => b.id == id).firstOrNull;
+    if (booking == null) return;
     final prevStatus = booking.status;
 
     await _bookingRepository.updateBookingStatus(id, newStatus);
@@ -146,18 +147,20 @@ class BookingsProvider extends ChangeNotifier {
   }
 
   Future<void> deleteBooking(String id, {String actorName = 'Admin'}) async {
-    final booking = _bookings.firstWhere((b) => b.id == id);
+    final booking = _bookings.where((b) => b.id == id).firstOrNull;
     await _bookingRepository.deleteBooking(id);
-    await _auditProvider?.logAction(
-      actorName: actorName,
-      actionType: 'DELETE',
-      entityType: 'Booking',
-      entityId: id,
-      entityTitle: '${booking.customerName} - ${booking.serviceTitle}',
-      previousValue: 'Status: ${booking.status.label}',
-      newValue: null,
-      summary: 'Removed booking #${booking.id}.',
-    );
+    if (booking != null) {
+      await _auditProvider?.logAction(
+        actorName: actorName,
+        actionType: 'DELETE',
+        entityType: 'Booking',
+        entityId: id,
+        entityTitle: '${booking.customerName} - ${booking.serviceTitle}',
+        previousValue: 'Status: ${booking.status.label}',
+        newValue: null,
+        summary: 'Removed booking #${booking.id}.',
+      );
+    }
     await loadBookings();
   }
 }
